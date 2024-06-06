@@ -21,7 +21,7 @@ The migrate command is used to apply database schema changes to your database ba
 When you run python manage.py migrate, Django looks at the unapplied migration files in your project and applies them to the database, updating the database schema accordingly.
 Go to root directory where `manage.py` is 
 
-### `python manage.py startapp app_name`
+### `python manage.py startapp my_app`
 
-Creates a new  directory with specified app_name
+Creates a new  directory with specified my_app
 contains all files and folders for new Dango App
