@@ -1,29 +1,60 @@
 // src/App.js
-import React from 'react';
-import VisualizerComponent from './DSA-Visualizer/VisualizerComponent';
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import BarChart from './VisualizerComponents/BarChart.js'
+import randomInt from './VisualizerComponents/Randomizer.js'
+import MonacoEditor from './MonacoEditor/MonacoEditor.js'
 
 function App() {
+  // const array = [];
+  // for(let i = 0; i < 5; i++){
+  //   array.push(randomInt(5, 100));
+  // };
+
+  const [code, setCode] = useState('I SEE YOU MANDY');
+
+  const handleEditorChange = (newValue) => {
+    setCode(newValue);
+    console.log(newValue)
+  };
+
+
+  // const [data, setData] = useState(array);
+
+  // const handleResize = () => {
+  //   // Trigger a re-render by updating the state (or use a more complex resize handler if needed)
+  //   setData([...data]);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [data]);
+
+  
   return (
-    <div>
-
-      <div className="text-center">
-        <header className="bg-blue-500 text-white p-4">
-          <h1 className="text-3xl font-bold">
-            Welcome to Tailwind CSS with React!
-          </h1>
-        </header>
-        <main className="p-4">
-          <p className="text-lg">
-            This is a simple example of using Tailwind CSS in a React application.
-          </p>
-        </main>
-      </div>
-
-      <div>
-        <VisualizerComponent />
-      </div>
+    <div className="App">
+      <header className="App-header">
+        <h1>Welcome to My Algorithm Visualizer</h1>
+      </header>
+      <main>
+      <h1>Monaco Editor in React</h1>
+      <MonacoEditor
+        language="javascript"
+        theme="vs-dark"
+        value={code}
+        onChange={handleEditorChange}
+      />
+        {/* <BarChart data = {data}/> */}
+      </main>
+      <footer>
+        <p>&copy; 2024 My Algorithm Visualizer</p>
+      </footer>
     </div>
   );
 }
+
 
 export default App;

@@ -1,5 +1,6 @@
 // config-overrides.js
 const webpack = require('webpack');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = function override(config, env) {
 
@@ -13,6 +14,9 @@ module.exports = function override(config, env) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
+    }),
+    new MonacoWebpackPlugin({
+      languages: ['javascript', 'css', 'html', 'json'] // Specify the languages you need
     })
   ]);
 
