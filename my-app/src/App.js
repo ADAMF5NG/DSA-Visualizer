@@ -16,7 +16,6 @@ function App() {
       </header>
       <main>
       <h1>Monaco Editor in React</h1>
-      <LanguageSelector />
       <MonacoEditor/>
         {/* <BarChart data = {data}/> */}
       </main>

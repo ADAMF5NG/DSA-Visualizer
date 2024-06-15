@@ -1,7 +1,5 @@
 // config-overrides.js
 const webpack = require('webpack');
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-
 module.exports = function override(config, env) {
 
   const envKeys = Object.keys(process.env).reduce((prev, next) => {
@@ -15,9 +13,6 @@ module.exports = function override(config, env) {
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
     }),
-    new MonacoWebpackPlugin({
-      languages: ['javascript', 'css', 'html', 'json'] // Specify the languages you need
-    })
   ]);
 
   config.resolve.fallback = {

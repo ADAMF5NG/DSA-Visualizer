@@ -1,25 +1,37 @@
-import React, { useState, useRef } from 'react';
-import { Editor } from '@monaco-editor/react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Editor, useMonaco } from '@monaco-editor/react';
+import LanguageSelector from './LanguageSelector';
+import { CODE_SNIPPETS } from '../constants';
 
 const MonacoEditor = () => {
   const editorRef = useRef();
   const [value, setValue] = useState("");
+  const [language, setLanguage] = useState("javascript");
 
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
-  
-  return( 
-  <Editor
-    height = "90vh"
-    theme = "vs-dark"
-    defaultLanguage="javascript" 
-    defaultValue="// I SEE YOU MANDY"
-    onMount={onMount}
-    value={value}
-    onChange={(value) => setValue(value)}
-    />
+
+  const onSelect = (language) => {
+    setLanguage(language);
+    setValue(CODE_SNIPPETS[language])
+  }
+
+  //console.log(language);
+
+  return(
+  <>
+    <LanguageSelector onSelect={onSelect} />
+    <Editor
+      height = "90vh"
+      theme = "vs-dark"
+      language = {language} 
+      onMount={onMount}
+      value={value}
+      onChange={(value) => setValue(value)}
+      />
+  </>
   )
 }
 export default MonacoEditor
