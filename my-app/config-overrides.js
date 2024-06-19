@@ -1,6 +1,5 @@
 // config-overrides.js
 const webpack = require('webpack');
-
 module.exports = function override(config, env) {
 
   const envKeys = Object.keys(process.env).reduce((prev, next) => {
@@ -13,7 +12,7 @@ module.exports = function override(config, env) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
-    })
+    }),
   ]);
 
   config.resolve.fallback = {
