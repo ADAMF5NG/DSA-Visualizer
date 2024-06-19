@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Editor, useMonaco } from '@monaco-editor/react';
+import { Editor} from '@monaco-editor/react';
 import LanguageSelector from './LanguageSelector';
 import { CODE_SNIPPETS } from '../constants';
+import Output from "./Output.jsx";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
@@ -22,15 +23,30 @@ const MonacoEditor = () => {
 
   return(
   <>
+  <div className="flex justify-between">
+  <div className="w-1/2">
+        {/* Form content goes here */}
     <LanguageSelector onSelect={onSelect} />
+    <div class="h-svh px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
     <Editor
-      height = "90vh"
+      options={{
+        minimap: {
+          enabled: false,
+        },
+      }}
+      // width = "50vw"
+      // height = "90vh"
       theme = "vs-dark"
-      language = {language} 
+      language = {language}
+      defaultValue = {CODE_SNIPPETS[language]}
       onMount={onMount}
       value={value}
       onChange={(value) => setValue(value)}
       />
+    </div>
+    </div>
+    <Output  editorRef={editorRef} langauge={language}/>
+    </div>
   </>
   )
 }
