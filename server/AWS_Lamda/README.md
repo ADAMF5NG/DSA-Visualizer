@@ -25,7 +25,7 @@ Kill a container
 
 Figure out what if wrong with this input
 
-### `curl "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"language":"java", "code": "public class HelloWorld {\npublic static void main(String[] args) {\\nSystem.out.println("Hello, World");\n}\n}"}'`
+### `curl "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"language":"java", "code": "public class HelloWorld {public static void main(String[] args) {System.out.println(\"Hello, World\");}}"}'`
 
 
 

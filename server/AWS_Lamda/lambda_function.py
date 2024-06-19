@@ -21,7 +21,7 @@ def execute_java_code(code):
             java_file.write(code)
         
         compile_result = subprocess.run(
-            ['java', '/tmp/Main.java'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            ['javac', '/tmp/Main.java'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         print('Compilation result:', compile_result.returncode)
         if compile_result.returncode != 0:
