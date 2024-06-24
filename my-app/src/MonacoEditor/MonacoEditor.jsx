@@ -19,8 +19,6 @@ const MonacoEditor = () => {
     setValue(CODE_SNIPPETS[language])
   }
 
-  //console.log(language);
-
   return(
   <>
   <div className="flex justify-between">

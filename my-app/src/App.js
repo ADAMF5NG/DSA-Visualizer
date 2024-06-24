@@ -17,7 +17,6 @@ function App() {
       <main>
       <h1>Monaco Editor in React</h1>
       <MonacoEditor/>
-        {/* <BarChart data = {data}/> */}
       </main>
       <footer>
         <p>&copy; 2024 My Algorithm Visualizer</p>
@@ -26,32 +25,4 @@ function App() {
   );
 }
 
-
 export default App;
-
-// const array = [];
-  // for(let i = 0; i < 5; i++){
-  //   array.push(randomInt(5, 100));
-  // };
-
-  //const [code, setCode] = useState('I SEE YOU MANDY');
-
-  // const handleEditorChange = (newValue) => {
-  //   setCode(newValue);
-  //   console.log(newValue)
-  // };
-
-
-  // const [data, setData] = useState(array);
-
-  // const handleResize = () => {
-  //   // Trigger a re-render by updating the state (or use a more complex resize handler if needed)
-  //   setData([...data]);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('resize', handleResize);
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [data]);
