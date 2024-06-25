@@ -13,10 +13,8 @@ function App() {
         <h1>Welcome to My Algorithm Visualizer</h1>
       </header>
       <div className="m-5">
-        <h1>Monaco Editor in React</h1>
         <div className="h-full grid grid-cols-2 grid-rows-2 gap-y-11 gap-x-1">
           <MonacoEditor />
-          <Output />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants";
+import Output from "./Output";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
@@ -19,6 +20,7 @@ const MonacoEditor = () => {
   };
 
   return (
+    <>
       <div className="row-span-2">
         <LanguageSelector onSelect={onSelect} />
         <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
@@ -28,8 +30,8 @@ const MonacoEditor = () => {
                 enabled: false,
               },
             }}
-            width = "100%"
-            height = "90vh"
+            width="100%"
+            height="120vh"
             theme="vs-dark"
             language={language}
             defaultValue={CODE_SNIPPETS[language]}
@@ -38,7 +40,9 @@ const MonacoEditor = () => {
             onChange={(value) => setValue(value)}
           />
         </div>
-        </div>
+      </div>
+      <Output language={language} editorRef={editorRef} />
+    </>
   );
 };
 export default MonacoEditor;
