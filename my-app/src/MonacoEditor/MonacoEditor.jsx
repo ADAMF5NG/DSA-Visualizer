@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import { CODE_SNIPPETS } from "../constants";
-import Output from "./Output.jsx";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
