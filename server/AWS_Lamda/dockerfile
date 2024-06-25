@@ -1,26 +1,18 @@
-# FROM public.ecr.aws/lambda/python:3.12
-
-# # Update DNF and install OpenJDK 11
-# RUN dnf install -y java-11-amazon-corretto-devel
-
-
-# # Copy requirements.txt
-# COPY requirements.txt ${LAMBDA_TASK_ROOT}
-
-# # Install the specified packages
-# RUN pip install -r requirements.txt
-
-# # Copy function code
-# COPY lambda_function.py ${LAMBDA_TASK_ROOT}
-
-# # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-# CMD [ "lambda_function.handler" ]
-
 
 FROM public.ecr.aws/lambda/python:3.12
 
+# Set environment variables for .NET CLI
+# ENV DOTNET_CLI_HOME=/tmp/.dotnet
+# ENV HOME=/tmp
+
 # Update DNF and install OpenJDK 11
-RUN dnf install -y java-11-amazon-corretto-devel
+RUN dnf install -y java-11-amazon-corretto-devel \
+    && curl -sL https://rpm.nodesource.com/setup_16.x | bash - \
+    && dnf install -y nodejs \
+    && dnf install -y dotnet-sdk-6.0
+
+# Create the directory for .NET CLI home
+RUN mkdir -p /tmp/.dotnet
 
 # Copy requirements.txt
 COPY requirements.txt ${LAMBDA_TASK_ROOT}
@@ -33,3 +25,33 @@ COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
 CMD [ "lambda_function.handler" ]
+
+
+# # Use an official OpenJDK image as a parent image
+# FROM openjdk:11-jdk-slim
+
+# # Install Python and other necessary packages
+# RUN apt-get update && \
+#     apt-get install -y python3 python3-pip && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/*
+
+# # Set environment variables for Lambda
+# ENV LAMBDA_TASK_ROOT /var/task
+# ENV LAMBDA_RUNTIME_DIR /var/runtime
+
+# # Set the working directory
+# WORKDIR ${LAMBDA_TASK_ROOT}
+
+# # Copy requirements.txt
+# COPY requirements.txt ${LAMBDA_TASK_ROOT}
+
+# # Install the specified packages and add debugging steps
+# RUN echo "Contents of requirements.txt:" && cat /var/task/requirements.txt
+# RUN pip3 install -r /var/task/requirements.txt
+
+# # Copy the Lambda function code
+# COPY lambda_function.py ${LAMBDA_TASK_ROOT}
+
+# # Set the CMD to your handler
+# CMD ["lambda_function.handler"]
