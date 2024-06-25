@@ -7,7 +7,7 @@ import Output from "./Output.jsx";
 const MonacoEditor = () => {
   const editorRef = useRef();
   const [value, setValue] = useState("");
-  const [language, setLanguage] = useState("javascript");
+  const [language, setLanguage] = useState("python");
 
   const onMount = (editor) => {
     editorRef.current = editor;

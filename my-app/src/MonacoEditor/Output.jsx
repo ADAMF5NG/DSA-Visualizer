@@ -1,15 +1,17 @@
-import React from 'react'
+import React,  { useState } from 'react'
 import { executeCode } from '../api';
 
 const Output = ({editorRef, language}) => {
+    const [output, setOutput] = useState(null);
     const runCode = async () =>{
         const sourceCode = editorRef.current.getValue();
         if(!sourceCode) return;
 
         try{
-            const {}  = await executeCode(language, sourceCode);
+            const {message}  = await executeCode(language, sourceCode);
+            setOutput(message)
         } catch (error){
-            console.log("THIS DONT WORK");
+            console.log(error);
         }
     }
 
@@ -26,7 +28,9 @@ const Output = ({editorRef, language}) => {
        <div >
            {/* <textarea id="editor" rows="8" class="block w-full px-0 text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder='Click "Run Code" to see the output here' required ></textarea> */}
            <div class="p-4 md:p-5 space-y-4">
-           Click "Run Code" to see the output here
+           {
+             output ? output : 'Click "Run Code" to see the output here'
+           }
            </div>
        </div>
    </div>
