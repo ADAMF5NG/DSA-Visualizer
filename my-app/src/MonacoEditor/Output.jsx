@@ -1,4 +1,5 @@
 import React from 'react'
+import { executeCode } from '../api';
 
 const Output = ({editorRef, language}) => {
     const runCode = async () =>{
@@ -6,11 +7,12 @@ const Output = ({editorRef, language}) => {
         if(!sourceCode) return;
 
         try{
-
+            const {}  = await executeCode(language, sourceCode);
         } catch (error){
-            
+            console.log("THIS DONT WORK");
         }
     }
+
     return(
         <>
         <form class = "w-1/2 items-start mx-1">
@@ -18,7 +20,7 @@ const Output = ({editorRef, language}) => {
                 <label for="languages" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Output</label>
             </div>
             <div class="flex justify-start">
-                <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-0.5">Run Code</button>
+                <button onClick={() => {runCode()}} type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-0.5">Run Code</button>
             </div>
             <div class="h-svh px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
        <div >

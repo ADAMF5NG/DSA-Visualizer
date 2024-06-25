@@ -45,7 +45,7 @@ const MonacoEditor = () => {
       />
     </div>
     </div>
-    <Output  editorRef={editorRef} langauge={language}/>
+    <Output  language = {language} editorRef={editorRef}/>
     </div>
   </>
   )
