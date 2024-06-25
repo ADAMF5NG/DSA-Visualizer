@@ -17,7 +17,7 @@ def execute_python_code(code):
 def execute_java_code(code):
     try:
         print('this is the code that we have received', code)
-        with open('/tmp/Main.java', 'a') as java_file:
+        with open('/tmp/Main.java', 'w') as java_file:
             java_file.write(code)
         
         compile_result = subprocess.run(

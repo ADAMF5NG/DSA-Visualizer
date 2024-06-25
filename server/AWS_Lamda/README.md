@@ -2,6 +2,8 @@
 
 ## Instruction 
 
+## Test lambda function locally 
+
 Step 1: Build the image 
 ### `docker build --platform linux/amd64 -t docker-image:test .`
 
@@ -21,11 +23,30 @@ Check what port is the container running on
 Kill a container 
 ### `docker kill [container id]`
 
-## Next step
+## Deploy Lambda function to production 
 
-Figure out what if wrong with this input
+Step 1: Follow instruction to upload container to AWS
+### https://docs.aws.amazon.com/lambda/latest/dg/python-image.html
 
-### `curl "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"language":"java", "code": "public class HelloWorld {public static void main(String[] args) {System.out.println(\"Hello, World\");}}"}'`
+Step 2: Set up API endpoint on AWS endpoint gateway. Connect to the lambda function. Make sure to enable CORS
+### https://us-east-1.console.aws.amazon.com/apigateway/main/apis
+
+## AWS CLI tips 
+
+To list all repositories in a specific region
+### `aws ecr describe-repositories --region us-east-1`
+
+To get details about a specific repository
+### `aws ecr describe-repositories --region us-east-1 --repository-names [repo name]`
+
+
+
+
+
+
+
+
+
 
 
 
