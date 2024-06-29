@@ -1,100 +1,88 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Editor} from '@monaco-editor/react';
-import LanguageSelector from './LanguageSelector';
-import { CODE_SNIPPETS } from '../constants';
-import Output from "./Output.jsx";
+import React, { useState, useRef } from "react";
+import { Editor } from "@monaco-editor/react";
+import LanguageSelector from "./LanguageSelector";
+import DataStructureSelector from "./DataStructureSelector";
+import { CODE_SNIPPETS, DATASTRUCTURE } from "../constants";
+import Output from "./Output";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
-  const [value, setValue] = useState("");
-  const [language, setLanguage] = useState("python");
+  const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["javascript"]);
+  const [language, setLanguage] = useState("javascript");
+
+  /**[TODO]: Include more data structure as we continue this project (not now) */
+  const [dataStructure, setDataStructure] = useState("D1_array");
 
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
 
-  const onSelect = (language) => {
+  const onSelectLanguage = (language) => {
     setLanguage(language);
-    setValue(CODE_SNIPPETS[language])
+    setDefaultCode(CODE_SNIPPETS[language]);
+  };
+
+  const onSelectDataStructure = (dataStructure) => {
+    setDataStructure(dataStructure);
   }
 
-  //console.log(language);
+  const insertText = (text) => {
+    let monacoInstance = editorRef.current;
+    if (monacoInstance) {
+        const selection = monacoInstance.getSelection();
+        const id = { major: 1, minor: 1 };
+        const op = {
+            identifier: id,
+            range: {
+                startLineNumber: selection?.selectionStartLineNumber || 1,
+                startColumn: selection?.selectionStartColumn || 1,
+                endLineNumber: selection?.endLineNumber || 1,
+                endColumn: selection?.endColumn || 1,
+            },
+            text,
+            forceMoveMarkers: true,
+        };
 
-  return(
-  <>
-  <div className="flex justify-between">
-  <div className="w-1/2">
-        {/* Form content goes here */}
-    <LanguageSelector onSelect={onSelect} />
-    <div class="h-svh px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
-    <Editor
-      options={{
-        minimap: {
-          enabled: false,
-        },
-      }}
-      // width = "50vw"
-      // height = "90vh"
-      theme = "vs-dark"
-      language = {language}
-      defaultValue = {CODE_SNIPPETS[language]}
-      onMount={onMount}
-      value={value}
-      onChange={(value) => setValue(value)}
-      />
-    </div>
-    </div>
-    <Output  language = {language} editorRef={editorRef}/>
-    </div>
-  </>
-  )
-}
-export default MonacoEditor
+        {/*[TODO]: Make sure indentation is auto fixed in the end */}
+        monacoInstance.executeEdits('my-source', [op]);
+        monacoInstance.trigger('anyString', 'editor.action.formatDocument')
+    }
+  };
 
-
-//import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'; // Import Monaco Editor API
-
-// const MonacoEditor = ({ language, theme}) => {
-//     const editorRef = useRef(); // Create a reference for the editor container
-//     const monacoRef = useRef(); // Create a reference for the Monaco editor instance
-  
-//     useEffect(() => {
-//         // Clean up any existing editor instance before creating a new one
-//         if (monacoRef.current) {
-//             monacoRef.current.dispose(); // Dispose of the existing editor instance
-//         }
-  
-//         // Create a new Monaco editor instance
-//         monacoRef.current = monaco.editor.create(editorRef.current, {
-//             // value: value, // Initial value of the editor
-//             language: language, // Programming language for syntax highlighting
-//             theme: theme, // Theme for the editor (e.g., 'vs-dark')
-//             automaticLayout: true, // Automatically adjust layout
-//         });
-  
-//         // Add an event listener to handle content changes in the editor
-//         // monacoRef.current.onDidChangeModelContent(() => {
-//         //     onChange(monacoRef.current.getValue()); // Call onChange with the new value
-//         // });
-  
-//         // Clean up the editor instance when the component is unmounted
-//         // return () => {
-//         //     if (monacoRef.current) {
-//         //         monacoRef.current.dispose(); // Dispose of the editor instance
-//         //     }
-//         // };
-//     }, [language, theme]); // Run this effect when language or theme changes
-  
-//     // useEffect(() => {
-//     //     // Update the editor's value when the value prop changes
-//     //     if (monacoRef.current) {
-//     //         monacoRef.current.setValue(value); // Set the new value
-//     //     }
-//     // }, [value]); // Run this effect when value changes
-  
-//     // Render the editor container
-//     return <div ref={editorRef} style={{ width: '100%', height: '500px' }} />;
-// };
-
-// export default MonacoEditor; // Export the MonacoEditor component
+  return (
+    <>
+      <div className="row-span-2">
+        <>
+        {/**[TODO]: Style it so the two selectors are in the same line */}
+        <LanguageSelector onSelect={onSelectLanguage}/>
+        <DataStructureSelector onSelect={onSelectDataStructure}/>
+        </>
+        <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
+          <Editor
+            options={{
+              minimap: {
+                enabled: false,
+              },
+            }}
+            width="100%"
+            height="120vh"
+            theme="vs-dark"
+            language={language}
+            defaultValue={defaultCode}
+            onMount={onMount}
+            value={defaultCode}
+            onChange={(value) => setDefaultCode(value)}
+            wrapperProps={{
+              onDoubleClick: () => {
+                insertText(DATASTRUCTURE["D1_array"].function("hello", language));
+              }
+            }}
+          />
+        </div>
+      </div>
+      <Output language={language} editorRef={editorRef} />
+    </>
+  );
+};
+export default MonacoEditor;

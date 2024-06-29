@@ -12,3 +12,26 @@ export const CODE_SNIPPETS = {
   csharp:
     'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello World in C#");\n\t\t}\n\t}\n}\n',
 };
+
+export const DATASTRUCTURE = {
+  D1_array: {
+    comment: `This is an D1 array`,
+    function: VISUALIZE_ARRAY
+  },
+}
+
+export function VISUALIZE_ARRAY(name, language) {
+  switch(language){
+    case 'javascript':
+      return `\r${name}.forEach(value => console.log(value));`;
+    case 'python':
+      return `\rfor value in ${name}: print(value)`;
+    case 'java': 
+      return `\rArrays.stream(${name}).forEach(System.out::println);`;
+    case 'csharp':
+      return `\r${name}.ToList().ForEach(Console.WriteLine);`;
+    default:
+      return ``;
+  }
+}
+

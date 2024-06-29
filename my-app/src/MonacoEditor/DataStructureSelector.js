@@ -1,35 +1,35 @@
 import React, {useState} from 'react'
-import { LANGUAGES } from '../constants';
+import { DATASTRUCTURE } from '../constants';
 
-const languages = Object.entries(LANGUAGES)
+const DSA = Object.entries(DATASTRUCTURE)
 
-const LanguageSelector = ({onSelect}) => {
-    const [languageName, setLanguageName] = useState('');
+const DataStructureSelector = ({onSelect}) => {
+    const [dataStructure, setDataStructure] = useState('');
 
     const handleSelect = (e) => {
         const selectedValue = e.target.value;
-        const languageName = selectedValue.substring(0, selectedValue.indexOf(' '));
-        setLanguageName(languageName);
-        onSelect(languageName);
+        const dataStructure = selectedValue.substring(0, selectedValue.indexOf(' '));
+        setDataStructure(dataStructure);
+        onSelect(dataStructure);
       };
     
     return(
         <>
         <form class="w-1/2 max-w-sm">
             <select 
-                id="languages"
+                id="data-structure"
                 onChange={handleSelect}
                 class="bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-0.5">
                 {
-                    languages.map(([language, version]) => (
-                        <option key ={language}
+                    DSA.map(([dsa]) => (
+                        <option key ={dsa}
                             className={`${
-                                languageName === language
+                                dataStructure === dsa
                                 ? 'text-blue-400 bg-gray-900'
                                 : 'bg-transparent'
                             }hover:text-blue-400 hover:bg-gray-900`} 
                         >
-                                {language + ' ' + version} 
+                                {dsa} 
                         </option>
                     ))
                 }
@@ -39,4 +39,4 @@ const LanguageSelector = ({onSelect}) => {
     );
 };
 
-export default LanguageSelector
+export default DataStructureSelector
