@@ -13,16 +13,23 @@ export const CODE_SNIPPETS = {
     'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello World in C#");\n\t\t}\n\t}\n}\n',
 };
 
+export const DATASTRUCTURE = {
+  D1_array: {
+    comment: `This is an D1 array`,
+    function: VISUALIZE_ARRAY
+  },
+}
+
 export function VISUALIZE_ARRAY(name, language) {
   switch(language){
     case 'javascript':
-      return `${name}.forEach(value => console.log(value));`;
+      return `\r${name}.forEach(value => console.log(value));`;
     case 'python':
-      return `for value in ${name}: print(value)`;
+      return `\rfor value in ${name}: print(value)`;
     case 'java': 
-      return `Arrays.stream(${name}).forEach(System.out::println);`;
+      return `\rArrays.stream(${name}).forEach(System.out::println);`;
     case 'csharp':
-      return `${name}.ToList().ForEach(Console.WriteLine);`;
+      return `\r${name}.ToList().ForEach(Console.WriteLine);`;
     default:
       return ``;
   }

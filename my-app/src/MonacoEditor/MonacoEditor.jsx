@@ -1,24 +1,29 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
-import { CODE_SNIPPETS } from "../constants";
+import DataStructureSelector from "./DataStructureSelector";
+import { CODE_SNIPPETS, DATASTRUCTURE } from "../constants";
 import Output from "./Output";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
-  const [value, setValue] = useState("");
+  const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["javascript"]);
   const [language, setLanguage] = useState("javascript");
+  const [dataStructure, setDataStructure] = useState("D1_array");
 
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
-    console.log(editor);
   };
 
-  const onSelect = (language) => {
+  const onSelectLanguage = (language) => {
     setLanguage(language);
-    setValue(CODE_SNIPPETS[language]);
+    setDefaultCode(CODE_SNIPPETS[language]);
   };
+
+  const onSelectDataStructure = (dataStructure) => {
+    setDataStructure(dataStructure);
+  }
 
   const insertText = (text) => {
     let monacoInstance = editorRef.current;
@@ -37,13 +42,17 @@ const MonacoEditor = () => {
             forceMoveMarkers: true,
         };
         monacoInstance.executeEdits('my-source', [op]);
+        monacoInstance.trigger('anyString', 'editor.action.formatDocument')
     }
   };
 
   return (
     <>
       <div className="row-span-2">
-        <LanguageSelector onSelect={onSelect}/>
+        <>
+        <LanguageSelector onSelect={onSelectLanguage}/>
+        <DataStructureSelector onSelect={onSelectDataStructure}/>
+        </>
         <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
           <Editor
             options={{
@@ -55,14 +64,13 @@ const MonacoEditor = () => {
             height="120vh"
             theme="vs-dark"
             language={language}
-            defaultValue={CODE_SNIPPETS[language]}
+            defaultValue={defaultCode}
             onMount={onMount}
-            value={value}
-            onChange={(value) => setValue(value)}
-            onClick={() => {console.log("DO ONCLICK WORKS?")}}
+            value={defaultCode}
+            onChange={(value) => setDefaultCode(value)}
             wrapperProps={{
               onDoubleClick: () => {
-                insertText(`\tIS THIS INSERTION WORKING\t`);
+                insertText(DATASTRUCTURE["D1_array"].function("hello", language));
               }
             }}
           />
