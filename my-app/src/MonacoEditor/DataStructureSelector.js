@@ -15,7 +15,7 @@ const DataStructureSelector = ({onSelect}) => {
     
     return(
         <>
-        <form class="w-1/2 max-w-sm">
+        <form class="flex-auto">
             <select 
                 id="data-structure"
                 onChange={handleSelect}

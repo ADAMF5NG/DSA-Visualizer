@@ -53,11 +53,10 @@ const MonacoEditor = () => {
   return (
     <>
       <div className="row-span-2">
-        <>
-        {/**[TODO]: Style it so the two selectors are in the same line */}
+        <div className="flex">
         <LanguageSelector onSelect={onSelectLanguage}/>
         <DataStructureSelector onSelect={onSelectDataStructure}/>
-        </>
+        </div>
         <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
           <Editor
             options={{
