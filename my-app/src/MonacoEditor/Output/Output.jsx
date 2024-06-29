@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { executeCode } from "../api.js";
-import Terminal from "./Output/Terminal.jsx";
-import Visualizer from "./Output/Visualizer.jsx";
+import { executeCode } from "../../api.js";
+import Terminal from "./Terminal.jsx";
+import Visualizer from "./Visualizer.jsx";
 
 const Output = ({ editorRef, language }) => {
   const [output, setOutput] = useState(
@@ -11,7 +11,7 @@ const Output = ({ editorRef, language }) => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
     try {
-      const {message}= await executeCode(language, sourceCode);
+      const { message } = await executeCode(language, sourceCode);
       console.log(message);
       setOutput(message);
     } catch (error) {
@@ -21,8 +21,8 @@ const Output = ({ editorRef, language }) => {
 
   return (
     <>
-      <Visualizer runCode={runCode}/>
-      <Terminal/>
+      <Visualizer runCode={runCode} />
+      <Terminal />
     </>
   );
 };

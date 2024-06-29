@@ -3,7 +3,7 @@ import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import DataStructureSelector from "./DataStructureSelector";
 import { CODE_SNIPPETS, DATASTRUCTURE } from "../constants";
-import Output from "./Output";
+import Output from "./Output/Output";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
@@ -25,28 +25,30 @@ const MonacoEditor = () => {
 
   const onSelectDataStructure = (dataStructure) => {
     setDataStructure(dataStructure);
-  }
+  };
 
   const insertText = (text) => {
     let monacoInstance = editorRef.current;
     if (monacoInstance) {
-        const selection = monacoInstance.getSelection();
-        const id = { major: 1, minor: 1 };
-        const op = {
-            identifier: id,
-            range: {
-                startLineNumber: selection?.selectionStartLineNumber || 1,
-                startColumn: selection?.selectionStartColumn || 1,
-                endLineNumber: selection?.endLineNumber || 1,
-                endColumn: selection?.endColumn || 1,
-            },
-            text,
-            forceMoveMarkers: true,
-        };
+      const selection = monacoInstance.getSelection();
+      const id = { major: 1, minor: 1 };
+      const op = {
+        identifier: id,
+        range: {
+          startLineNumber: selection?.selectionStartLineNumber || 1,
+          startColumn: selection?.selectionStartColumn || 1,
+          endLineNumber: selection?.endLineNumber || 1,
+          endColumn: selection?.endColumn || 1,
+        },
+        text,
+        forceMoveMarkers: true,
+      };
 
-        {/*[TODO]: Make sure indentation is auto fixed in the end */}
-        monacoInstance.executeEdits('my-source', [op]);
-        monacoInstance.trigger('anyString', 'editor.action.formatDocument')
+      {
+        /*[TODO]: Make sure indentation is auto fixed in the end */
+      }
+      monacoInstance.executeEdits("my-source", [op]);
+      monacoInstance.trigger("anyString", "editor.action.formatDocument");
     }
   };
 
@@ -54,8 +56,8 @@ const MonacoEditor = () => {
     <>
       <div className="row-span-2">
         <div className="flex">
-        <LanguageSelector onSelect={onSelectLanguage}/>
-        <DataStructureSelector onSelect={onSelectDataStructure}/>
+          <LanguageSelector onSelect={onSelectLanguage} />
+          <DataStructureSelector onSelect={onSelectDataStructure} />
         </div>
         <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
           <Editor
@@ -74,8 +76,10 @@ const MonacoEditor = () => {
             onChange={(value) => setDefaultCode(value)}
             wrapperProps={{
               onDoubleClick: () => {
-                insertText(DATASTRUCTURE["D1_array"].function("hello", language));
-              }
+                insertText(
+                  DATASTRUCTURE["D1_array"].function("hello", language)
+                );
+              },
             }}
           />
         </div>
