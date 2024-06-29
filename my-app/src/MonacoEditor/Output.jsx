@@ -6,9 +6,10 @@ const Output = ({editorRef, language}) => {
     const runCode = async () =>{
         const sourceCode = editorRef.current.getValue();
         if(!sourceCode) return;
-
+        console.log("Button Clicked")
+        console.log(sourceCode)
         try{
-            const {message}  = await executeCode(language, sourceCode);
+            const {message}  = await executeCode(language, sourceCode); 
             setOutput(message)
         } catch (error){
             console.log(error);

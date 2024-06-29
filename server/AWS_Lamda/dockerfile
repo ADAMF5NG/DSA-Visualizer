@@ -1,18 +1,20 @@
-
 FROM public.ecr.aws/lambda/python:3.12
 
 # Set environment variables for .NET CLI
-# ENV DOTNET_CLI_HOME=/tmp/.dotnet
-# ENV HOME=/tmp
+ENV DOTNET_CLI_HOME=/tmp/.dotnet
+ENV HOME=/tmp
 
-# Update DNF and install OpenJDK 11
-RUN dnf install -y java-11-amazon-corretto-devel \
+# Install dependencies using dnf
+RUN dnf install -y tar gzip \
     && curl -sL https://rpm.nodesource.com/setup_16.x | bash - \
     && dnf install -y nodejs \
-    && dnf install -y dotnet-sdk-6.0
+    && dnf install -y dotnet-sdk-6.0 \
+    && dnf install -y java-11-amazon-corretto-devel
 
-# Create the directory for .NET CLI home
-RUN mkdir -p /tmp/.dotnet
+# Create the directory for .NET CLI home and set permissions
+RUN mkdir -p /tmp/.dotnet \
+    && chown -R root:root /tmp/.dotnet \
+    && chmod -R 777 /tmp/.dotnet
 
 # Copy requirements.txt
 COPY requirements.txt ${LAMBDA_TASK_ROOT}
@@ -23,7 +25,7 @@ RUN pip install -r requirements.txt
 # Copy function code
 COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
-# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+# Set the CMD to your handler
 CMD [ "lambda_function.handler" ]
 
 

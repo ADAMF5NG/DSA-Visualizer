@@ -54,37 +54,66 @@ def execute_js_code(code):
     except Exception as e:
         return str(e)
     
+# def execute_csharp_code(code):
+#     try:
+#         # Create and write the C# code to a file
+#         with open('/tmp/Program.cs', 'w') as cs_file:
+#             cs_file.write(code)
+        
+#         # Create a new .NET console project
+#         project_creation_result = subprocess.run(
+#             ['dotnet', 'new', 'console', '--output', '/tmp/ConsoleApp', '--force'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+#         if project_creation_result.returncode != 0:
+#             return project_creation_result.stderr.decode()
+
+#         # Write the C# code to the project file
+#         with open('/tmp/ConsoleApp/Program.cs', 'w') as cs_file:
+#             cs_file.write(code)
+        
+#         # Compile the C# project
+#         compile_result = subprocess.run(
+#             ['dotnet', 'build', '/tmp/ConsoleApp'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+#         if compile_result.returncode != 0:
+#             return compile_result.stderr.decode()
+
+#         # Run the compiled project
+#         run_result = subprocess.run(
+#             ['dotnet', 'run', '--project', '/tmp/ConsoleApp'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+#         if run_result.returncode != 0:
+#             return run_result.stderr.decode()
+        
+#         return run_result.stdout.decode()
+#     except Exception as e:
+#         return str(e)
+
 def execute_csharp_code(code):
     try:
-        # Create and write the C# code to a file
-        with open('/tmp/Program.cs', 'w') as cs_file:
+        cs_file_path = '/tmp/Program.cs'
+        with open(cs_file_path, 'w') as cs_file:
             cs_file.write(code)
-        
-        # Create a new .NET console project
-        project_creation_result = subprocess.run(
-            ['dotnet', 'new', 'console', '--output', '/tmp/ConsoleApp', '--force'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
-        if project_creation_result.returncode != 0:
-            return project_creation_result.stderr.decode()
 
-        # Write the C# code to the project file
-        with open('/tmp/ConsoleApp/Program.cs', 'w') as cs_file:
-            cs_file.write(code)
-        
-        # Compile the C# project
+        # Compile the C# code
         compile_result = subprocess.run(
-            ['dotnet', 'build', '/tmp/ConsoleApp'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            ['dotnet', 'build', cs_file_path],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         if compile_result.returncode != 0:
             return compile_result.stderr.decode()
 
-        # Run the compiled project
+        # Locate the compiled DLL (assuming default project structure)
+        dll_path = "/tmp/bin/Debug/net6.0/Program.dll"
+
+        # Run the compiled C# code
         run_result = subprocess.run(
-            ['dotnet', 'run', '--project', '/tmp/ConsoleApp'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
+            ['dotnet', dll_path],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
         if run_result.returncode != 0:
             return run_result.stderr.decode()
-        
+
         return run_result.stdout.decode()
     except Exception as e:
         return str(e)
