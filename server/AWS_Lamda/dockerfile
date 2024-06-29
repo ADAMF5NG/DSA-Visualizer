@@ -3,7 +3,6 @@ FROM public.ecr.aws/lambda/python:3.12
 # Update DNF and install OpenJDK 11
 RUN dnf install -y java-11-amazon-corretto-devel
 
-
 # Copy requirements.txt
 COPY requirements.txt ${LAMBDA_TASK_ROOT}
 

@@ -11,6 +11,7 @@ const Visualizer = ({ runCode }) => {
         <div class="flex justify-start">
           <button
             onClick={() => {
+              console.log("Clicked");
               runCode();
             }}
             type="button"

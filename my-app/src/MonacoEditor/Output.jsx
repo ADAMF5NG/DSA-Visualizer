@@ -11,9 +11,9 @@ const Output = ({ editorRef, language }) => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
     try {
-      const message = await executeCode(language, sourceCode);
-      console.log(message.body);
-      setOutput(message.body);
+      const {message}= await executeCode(language, sourceCode);
+      console.log(message);
+      setOutput(message);
     } catch (error) {
       console.log(error);
     }

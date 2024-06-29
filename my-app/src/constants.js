@@ -12,3 +12,19 @@ export const CODE_SNIPPETS = {
   csharp:
     'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello World in C#");\n\t\t}\n\t}\n}\n',
 };
+
+export function VISUALIZE_ARRAY(name, language) {
+  switch(language){
+    case 'javascript':
+      return `${name}.forEach(value => console.log(value));`;
+    case 'python':
+      return `for value in ${name}: print(value)`;
+    case 'java': 
+      return `Arrays.stream(${name}).forEach(System.out::println);`;
+    case 'csharp':
+      return `${name}.ToList().ForEach(Console.WriteLine);`;
+    default:
+      return ``;
+  }
+}
+
