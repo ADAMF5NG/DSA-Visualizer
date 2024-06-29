@@ -9,6 +9,8 @@ const MonacoEditor = () => {
   const editorRef = useRef();
   const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["javascript"]);
   const [language, setLanguage] = useState("javascript");
+
+  /**[TODO]: Include more data structure as we continue this project (not now) */
   const [dataStructure, setDataStructure] = useState("D1_array");
 
   const onMount = (editor) => {
@@ -41,6 +43,8 @@ const MonacoEditor = () => {
             text,
             forceMoveMarkers: true,
         };
+
+        {/*[TODO]: Make sure indentation is auto fixed in the end */}
         monacoInstance.executeEdits('my-source', [op]);
         monacoInstance.trigger('anyString', 'editor.action.formatDocument')
     }
@@ -50,6 +54,7 @@ const MonacoEditor = () => {
     <>
       <div className="row-span-2">
         <>
+        {/**[TODO]: Style it so the two selectors are in the same line */}
         <LanguageSelector onSelect={onSelectLanguage}/>
         <DataStructureSelector onSelect={onSelectDataStructure}/>
         </>
