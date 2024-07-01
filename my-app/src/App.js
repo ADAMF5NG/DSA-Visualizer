@@ -4,7 +4,6 @@ import "./App.css";
 // import BarChart from './VisualizerComponents/BarChart.js'
 // import randomInt from './VisualizerComponents/Randomizer.js'
 import MonacoEditor from "./MonacoEditor/MonacoEditor.jsx";
-import Output from "./MonacoEditor/Output.jsx";
 
 function App() {
   return (

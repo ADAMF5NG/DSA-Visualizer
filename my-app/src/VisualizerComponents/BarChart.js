@@ -6,14 +6,18 @@ const BarChart = ({ data }) => {
 
   useEffect(() => {
     const svg = d3.select(ref.current); // Select the SVG element
-    const margin = { top: 200, right: 300, bottom: 400, left: 400 };
-    const width = parseInt(d3.select(ref.current).style('width')) - margin.left - margin.right;
-    const height = parseInt(d3.select(ref.current).style('height')) - margin.top - margin.bottom;
+    const margin = {right: 10, left: 10 }; // Set margins
+    
+    
+    
+    const width = (document.getElementById('Bar').getBoundingClientRect().width) - margin.left - margin.right;
+    const height = (document.getElementById('Bar').getBoundingClientRect().height) - margin.left - margin.right;
+    console.log(width, height)
+    //console.log(document.getElementById('Visualizer').getBoundingClientRect(), document.getElementById('Visualizer').getBoundingClientRect().width)
 
     svg.selectAll('*').remove(); // Clear previous contents of the SVG
 
     const g = svg.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     const x = d3.scaleBand()
       .domain(data.map((d, i) => i))
@@ -25,14 +29,14 @@ const BarChart = ({ data }) => {
       .nice()
       .range([height, 0]);
 
-    g.append('g')
-      .attr('class', 'x-axis')
-      .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(x).tickFormat(i => i));
+    // g.append('g')
+    //   .attr('class', 'x-axis')
+    //   .attr('transform', `translate(0,${height})`)
+    //   .call(d3.axisBottom(x).tickFormat(i => i));
 
-    g.append('g')
-      .attr('class', 'y-axis')
-      .call(d3.axisLeft(y).ticks(5));
+    // g.append('g')
+    //   .attr('class', 'y-axis')
+    //   .call(d3.axisLeft(y).ticks(5));
 
     g.selectAll('.bar')
       .data(data)
@@ -42,13 +46,14 @@ const BarChart = ({ data }) => {
       .attr('y', d => y(d))
       .attr('width', x.bandwidth())
       .attr('height', d => height - y(d))
-      .attr('fill', 'steelblue');
+      .attr('fill', 'yellow');
 
   }, [data, ref.current]); // Re-run the effect if data changes
 
+  // Make it dyanmically change in size.
   return (
-    <div style={{ width: '100%', height: '1000px' }}>
-      <svg ref={ref} style={{ width: '100%', height: '100%' }} />
+    <div id = "Visualizer" class="size-full flex justify-center items-center">
+      <svg id = "Bar" ref={ref} style={{ width: '100%', height: '100%' }} />
     </div>
   );
 };

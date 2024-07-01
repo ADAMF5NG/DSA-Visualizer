@@ -15,7 +15,22 @@ export const CODE_SNIPPETS = {
 
 export const DATASTRUCTURE = {
   D1_array: {
-    comment: `This is an D1 array`,
+    comment: `<BarChart data={data} />`,
+    function: VISUALIZE_ARRAY
+  },
+  
+  D2_array: {
+    comment: `This is an 1D array`,
+    function: VISUALIZE_ARRAY
+  },
+  
+  D3_array: {
+    comment: `This is an 2D array`,
+    function: VISUALIZE_ARRAY
+  },
+  
+  D4_array: {
+    comment: `This is an stack`,
     function: VISUALIZE_ARRAY
   },
 }
@@ -23,13 +38,13 @@ export const DATASTRUCTURE = {
 export function VISUALIZE_ARRAY(name, language) {
   switch(language){
     case 'javascript':
-      return `\r${name}.forEach(value => console.log(value));`;
+      return `${name}.forEach(value => console.log(value));`;
     case 'python':
-      return `\rfor value in ${name}: print(value)`;
+      return `for value in ${name}: print(value)`;
     case 'java': 
-      return `\rArrays.stream(${name}).forEach(System.out::println);`;
+      return `Arrays.stream(${name}).forEach(System.out::println);`;
     case 'csharp':
-      return `\r${name}.ToList().ForEach(Console.WriteLine);`;
+      return `${name}.ToList().ForEach(Console.WriteLine);`;
     default:
       return ``;
   }

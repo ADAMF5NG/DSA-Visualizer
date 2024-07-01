@@ -7,8 +7,8 @@ import Output from "./Output";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
-  const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["javascript"]);
-  const [language, setLanguage] = useState("javascript");
+  const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["python"]);
+  const [language, setLanguage] = useState("python");
 
   /**[TODO]: Include more data structure as we continue this project (not now) */
   const [dataStructure, setDataStructure] = useState("D1_array");
@@ -30,23 +30,27 @@ const MonacoEditor = () => {
   const insertText = (text) => {
     let monacoInstance = editorRef.current;
     if (monacoInstance) {
-        const selection = monacoInstance.getSelection();
-        const id = { major: 1, minor: 1 };
-        const op = {
-            identifier: id,
-            range: {
-                startLineNumber: selection?.selectionStartLineNumber || 1,
-                startColumn: selection?.selectionStartColumn || 1,
-                endLineNumber: selection?.endLineNumber || 1,
-                endColumn: selection?.endColumn || 1,
-            },
-            text,
-            forceMoveMarkers: true,
-        };
+      monacoInstance.trigger('keyboard', 'type', {text: '\n'}); //enters before the thing is called so it is a proper enter
+      const selection = monacoInstance.getSelection();
+      const id = { major: 1, minor: 1 };
+      const op = {
+        identifier: id,
+        range: {
+          startLineNumber: selection?.selectionStartLineNumber || 1,
+          startColumn: selection?.selectionStartColumn || 1,
+          endLineNumber: selection?.endLineNumber || 1,
+          endColumn: selection?.endColumn || 1,
+        },
+        text,
+        forceMoveMarkers: true,
+      };
+      {
+        /*[TODO]: Make sure indentation is auto fixed in the end */
+      }
+      //monacoInstance.trigger('keyboard', 'tab', null); //tabs come after being placed
+      monacoInstance.executeEdits("my-source", [op]);
+      //monacoInstance.trigger("anyString", "editor.action.formatDocument"); // no need?
 
-        {/*[TODO]: Make sure indentation is auto fixed in the end */}
-        monacoInstance.executeEdits('my-source', [op]);
-        monacoInstance.trigger('anyString', 'editor.action.formatDocument')
     }
   };
 
@@ -54,9 +58,10 @@ const MonacoEditor = () => {
     <>
       <div className="row-span-2">
         <>
-        {/**[TODO]: Style it so the two selectors are in the same line */}
+        <div className="flex auto">
         <LanguageSelector onSelect={onSelectLanguage}/>
         <DataStructureSelector onSelect={onSelectDataStructure}/>
+        </div>
         </>
         <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
           <Editor
@@ -75,13 +80,13 @@ const MonacoEditor = () => {
             onChange={(value) => setDefaultCode(value)}
             wrapperProps={{
               onDoubleClick: () => {
-                insertText(DATASTRUCTURE["D1_array"].function("hello", language));
+                insertText(DATASTRUCTURE[dataStructure].function("hello", language));
               }
             }}
           />
         </div>
       </div>
-      <Output language={language} editorRef={editorRef} />
+      <Output language={language} editorRef={editorRef} dsType={dataStructure} />
     </>
   );
 };
