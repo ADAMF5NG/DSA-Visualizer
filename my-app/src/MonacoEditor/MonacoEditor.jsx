@@ -9,6 +9,7 @@ const MonacoEditor = () => {
   const editorRef = useRef();
   const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["python"]);
   const [language, setLanguage] = useState("python");
+  const [functionName, setFunctionName] = useState("_____");
 
   /**[TODO]: Include more data structure as we continue this project (not now) */
   const [dataStructure, setDataStructure] = useState("D1_array");
@@ -54,6 +55,18 @@ const MonacoEditor = () => {
     }
   };
 
+  const funcName = () => {
+    const sourceCode = editorRef.current.getValue();
+    if (!sourceCode) return;
+    try{
+      setFunctionName(sourceCode.substring(sourceCode.indexOf("[")+1, sourceCode.indexOf("]")));
+    } catch(error){
+      console.log(error);
+    }
+  }
+
+
+
   return (
     <>
       <div className="row-span-2">
@@ -80,7 +93,8 @@ const MonacoEditor = () => {
             onChange={(value) => setDefaultCode(value)}
             wrapperProps={{
               onDoubleClick: () => {
-                insertText(DATASTRUCTURE[dataStructure].function("hello", language));
+                funcName();
+                insertText(DATASTRUCTURE[dataStructure].function(functionName, language));
               }
             }}
           />
