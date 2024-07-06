@@ -1,8 +1,16 @@
 FROM public.ecr.aws/lambda/python:3.12
 
 # Update DNF and install OpenJDK 11
-RUN dnf install -y java-11-amazon-corretto-devel \ 
-    && dnf install -y dotnet-sdk-6.0
+RUN dnf install -y tar gzip \
+    && curl -sL https://rpm.nodesource.com/setup_16.x | bash - \
+    && dnf install -y nodejs \dnf install -y java-11-amazon-corretto-devel \ 
+    && dnf install -y dotnet-sdk-6.0 \
+    && dotnet tool install -g dotnet-script 
+
+# Add the dotnet-tools to the PATH
+# ENV PATH="$PATH:/root/.dotnet/tools"
+# Set DOTNET_CLI_HOME environment variable
+# ENV DOTNET_CLI_HOME /tmp/dotnet_cli_home
 
 # Copy requirements.txt
 COPY requirements.txt ${LAMBDA_TASK_ROOT}
