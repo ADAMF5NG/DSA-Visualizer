@@ -7,11 +7,6 @@ RUN dnf install -y tar gzip \
     && dnf install -y dotnet-sdk-6.0 \
     && dotnet tool install -g dotnet-script 
 
-# Add the dotnet-tools to the PATH
-# ENV PATH="$PATH:/root/.dotnet/tools"
-# Set DOTNET_CLI_HOME environment variable
-# ENV DOTNET_CLI_HOME /tmp/dotnet_cli_home
-
 # Copy requirements.txt
 COPY requirements.txt ${LAMBDA_TASK_ROOT}
 
@@ -21,5 +16,5 @@ RUN pip install -r requirements.txt
 # Copy function code
 COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
-# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+# Set the CMD to your handler
 CMD [ "lambda_function.handler" ]

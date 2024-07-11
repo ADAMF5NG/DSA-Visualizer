@@ -1,4 +1,4 @@
-import sys, io, subprocess
+import sys, io, subprocess, json
 
 def execute_python_code(code):
     original_stdout = sys.stdout
@@ -28,6 +28,9 @@ def execute_java_code(code):
         run_result = subprocess.run(
             ['java', '-classpath', '/tmp', 'Main'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
+        if run_result.returncode != 0:
+            return run_result.stderr.decode()
+        
         print('Run result:', run_result.returncode)
         return run_result.stdout.decode()
     except Exception as e:
@@ -35,6 +38,7 @@ def execute_java_code(code):
     
 def execute_js_code(code):
     try:
+        print('Code:', code)
         with open('/tmp/script.js', 'w') as js_file:
             js_file.write(code)
             
@@ -47,7 +51,7 @@ def execute_js_code(code):
         return run_result.stdout.decode()
     except Exception as e:
         return str(e)
-
+    
 def handler(event, context):
     language = event.get('language')
     print(language)
@@ -58,9 +62,20 @@ def handler(event, context):
     elif language == 'javascript':
         result = execute_js_code(event.get('code'))
     else:
-        result = 'unsupported language' + language
+        ran_code = "Unsupported language"
 
-    return {
-        'statusCode': 200,
-        'body': result,
+    response = {
+        "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+        },
+        "body": json.dumps({
+            "message": ran_code
+        }),
     }
+
+    return response
+
+

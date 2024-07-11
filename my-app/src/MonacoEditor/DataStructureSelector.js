@@ -7,10 +7,10 @@ const DataStructureSelector = ({onSelect}) => {
     const [dataStructure, setDataStructure] = useState('');
 
     const handleSelect = (e) => {
-        const selectedValue = e.target.value;
-        const dataStructure = selectedValue.substring(0, selectedValue.indexOf(' '));
+        const dataStructure = e.target.value;
         setDataStructure(dataStructure);
         onSelect(dataStructure);
+        //console.log(dataStructure);
       };
     
     return(

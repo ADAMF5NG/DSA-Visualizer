@@ -7,8 +7,9 @@ import Output from "./Output/Output";
 
 const MonacoEditor = () => {
   const editorRef = useRef();
-  const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["javascript"]);
-  const [language, setLanguage] = useState("javascript");
+  const [defaultCode, setDefaultCode] = useState(CODE_SNIPPETS["python"]);
+  const [language, setLanguage] = useState("python");
+  const [functionName, setFunctionName] = useState("_____");
 
   /**[TODO]: Include more data structure as we continue this project (not now) */
   const [dataStructure, setDataStructure] = useState("D1_array");
@@ -30,6 +31,7 @@ const MonacoEditor = () => {
   const insertText = (text) => {
     let monacoInstance = editorRef.current;
     if (monacoInstance) {
+      monacoInstance.trigger('keyboard', 'type', {text: '\n'}); //enters before the thing is called so it is a proper enter
       const selection = monacoInstance.getSelection();
       const id = { major: 1, minor: 1 };
       const op = {
@@ -43,22 +45,36 @@ const MonacoEditor = () => {
         text,
         forceMoveMarkers: true,
       };
-
       {
         /*[TODO]: Make sure indentation is auto fixed in the end */
       }
+      //monacoInstance.trigger('keyboard', 'tab', null); //tabs come after being placed
       monacoInstance.executeEdits("my-source", [op]);
-      monacoInstance.trigger("anyString", "editor.action.formatDocument");
+      //monacoInstance.trigger("anyString", "editor.action.formatDocument"); // no need?
+
     }
   };
+
+  const funcName = () => {
+    const sourceCode = editorRef.current.getValue();
+    if (!sourceCode) return;
+    try{
+      setFunctionName(sourceCode.substring(sourceCode.indexOf("[")+1, sourceCode.indexOf("]")));
+    } catch(error){
+      console.log(error);
+    }
+  }
+
+
 
   return (
     <>
       <div className="row-span-2">
-        <div className="flex">
-          <LanguageSelector onSelect={onSelectLanguage} />
-          <DataStructureSelector onSelect={onSelectDataStructure} />
-        </div>
+        <>
+        {/**[TODO]: Style it so the two selectors are in the same line */}
+        <LanguageSelector onSelect={onSelectLanguage}/>
+        <DataStructureSelector onSelect={onSelectDataStructure}/>
+        </>
         <div class="px-4 py-4 bg-white rounded-t-lg rounded-b-lg dark:bg-gray-800">
           <Editor
             options={{
@@ -76,15 +92,13 @@ const MonacoEditor = () => {
             onChange={(value) => setDefaultCode(value)}
             wrapperProps={{
               onDoubleClick: () => {
-                insertText(
-                  DATASTRUCTURE["D1_array"].function("hello", language)
-                );
-              },
+                insertText(DATASTRUCTURE["D1_array"].function("hello", language));
+              }
             }}
           />
         </div>
       </div>
-      <Output language={language} editorRef={editorRef} />
+      <Output language={language} editorRef={editorRef} dsType={dataStructure} />
     </>
   );
 };

@@ -9,7 +9,7 @@ const LanguageSelector = ({onSelect}) => {
     const handleSelect = (e) => {
         const selectedValue = e.target.value;
         const languageName = selectedValue.substring(0, selectedValue.indexOf(' '));
-        setLanguageName(languageName);
+        setLanguageName(languageName); //sets the language
         onSelect(languageName);
       };
     
